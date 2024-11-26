@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWise</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>WeatherWise</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/forecast">Forecasts</a></li>
+                <li><a href="/radar">Radar</a></li>
+                <li><a href="/news">News</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Search Section -->
+        <section id="search">
+            <h2>World Forecast</h2>
+            <p>Providing Millions With World-Wide Weather</p>
+            <input type="text" id="city" placeholder="Enter city name">
+            <button id="search-btn">Search</button>
+        </section>
+
+        <!-- Radar Section -->
+        <section id="radar">
+            <h2>Weather Radar</h2>
+            <iframe 
+                src="https://embed.windy.com/embed2.html?lat=0&lon=0&zoom=3&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=0&detailLon=0&metricWind=default&metricTemp=default&radarRange=-1"
+                frameborder="0" style="width: 100%; height: 500px;" allowfullscreen></iframe>
+        </section>
+
+        
+    </main>
+    <footer>
+        <p>&copy; 2024 WeatherWise. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

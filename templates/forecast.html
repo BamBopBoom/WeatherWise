@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWise - Forecast</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>WeatherWise</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/forecast">Forecasts</a></li>
+                <li><a href="/radar">Radar</a></li>
+                <li><a href="/news">News</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Search Section -->
+        <section id="search">
+            <h2>World Forecast</h2>
+            <p>Providing Millions With World-Wide Weather</p>
+            <input type="text" id="city" placeholder="Enter city name">
+            <button id="search-btn">Search</button>
+        </section>
+        <!-- Current Weather -->
+        <section id="current-weather">
+            <h2>Current Weather</h2>
+            <div id="weather-data">
+                <!-- Dynamic current weather data will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Hourly Forecast -->
+        <section id="hourly-forecast">
+            <h2>Hourly Forecast</h2>
+            <div id="hourly-data" class="hourly-container">
+                <!-- Hourly forecast data will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Weekly Forecast -->
+        <section id="weekly-forecast">
+            <h2>Weekly Forecast</h2>
+            <div id="weekly-data" class="weekly-container">
+                <!-- Weekly forecast data will be inserted here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 WeatherWise. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

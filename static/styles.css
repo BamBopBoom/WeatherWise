@@ -1,24 +1,32 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #4facfe, #00f2fe);
-    color: #333;
+    height: 100%; /* Ensures full screen usage */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    font-family: 'Inter';
+    background-color: #FFF; /* Sky blue fallback */
+    background-image: url('https://www.w3schools.com/w3images/clouds.jpg'); /* Cloud background */
+    background-size: cover; /* Make sure the image covers the entire screen */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
 }
+
+
 
 /* Header */
 header {
-    background-color: #fff;
-    padding: 20px;
+    background-color: #fff; /* Transparent background */
+    padding: 10px 50px; /* Padding for spacing */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
     z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease; /* Smooth transition for background */
 }
 
 /* Logo */
@@ -53,12 +61,15 @@ nav a {
     text-decoration: none;
     font-weight: bold;
     color: #007BFF;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 nav a:hover {
     text-decoration: underline;
+    text-decoration-thickness: 2px;
+    transform: translateY(-2px);
 }
-
+/* ------------------------------------- */
 /* Main Section Styling */
 main {
     padding: 100px 20px 20px 20px; /* Added top padding to account for fixed header */
@@ -66,7 +77,10 @@ main {
     width: 100%;
     margin: 0 auto;
 }
-
+h2 {
+    font-size: 20pt;
+    font-family: "Inter";
+}
 /* Homepage Layout */
 .homepage-layout {
     display: grid;
@@ -76,12 +90,33 @@ main {
     margin-top: 50px;
 }
 
+/* Rounded rectangle for homepage */
+.main-container {
+    background: linear-gradient( 89.5deg,  rgba(131,204,255,1) 0.4%, rgba(66,144,251,1) 100.3% );
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px 80px 40px 80px; /* Shortened padding-top to 20px, kept others as 40px */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin: 50px 0 auto; /* Centering the container */
+    max-width: 1600px; /* Maximum width */
+    z-index: 0;
+    
+}
+.frontrect-container {
+    background: #FFF;
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px 20px 40px 20px; /* Shortened padding-top to 20px, kept others as 40px */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin: 50px 0 auto; /* Centering the container */
+    max-width: 1600px; /* Maximum width */
+    z-index: 1;
+}
 /* Search Section */
 #search-section {
     display: flex;
     flex-direction: column; /* Stack title, subtitle, and search bar */
     justify-content: flex-start;
     gap: 20px;
+    z-index: 2
 }
 
 #search {
@@ -156,6 +191,8 @@ main {
 .country-circle:hover {
     background-color: #007BFF;
 }
+/* ------------------------------------- */
+
 
 /* Hourly and Weekly Containers */
 .hourly-container,
@@ -191,7 +228,58 @@ main {
     margin: 5px 0;
     font-size: 14px;
 }
+/* Current Weather Tile */
+.current-weather {
+    background-color: #fff; /* White background */
+    border-radius: 15px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    width: 60%; /* Larger width for the current weather */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    display: flex;
+    flex-direction: column; /* Stack the elements vertically */
+    margin-bottom: 20px; /* Adds space below the current weather tile */
+}
 
+/* Weather Container for Current Weather and Forecast */
+.weather-container {
+    display: flex;
+    gap: 20px; /* Space between current weather and forecast */
+    justify-content: space-between;
+    align-items: flex-start; /* Align items at the top */
+    margin: 20px auto; /* Center the container with margin */
+    max-width: 1200px; /* Maximum width for the container */
+}
+
+/* Hourly Forecast Container */
+.forecast-container {
+    width: 35%; /* Smaller width for the forecast container */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hourly Forecast Tiles */
+.hourly-forecast {
+    display: flex;
+    overflow-x: auto; /* Allows horizontal scrolling */
+    gap: 10px; /* Space between each forecast tile */
+    margin-top: 10px;
+}
+
+.forecast-tile {
+    background-color: #fff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Padding inside each forecast tile */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    width: 100px; /* Set width for each tile */
+    display: flex;
+    flex-direction: column; /* Stack time and weather icon vertically */
+}
+
+/* Styles for Hourly Forecast Titles */
+.forecast-tile p {
+    margin: 5px 0;
+}
 /* Unit Toggle Button */
 .unit-toggle {
     position: fixed;
@@ -206,11 +294,17 @@ main {
     z-index: 1001;
     font-size: 14px;
 }
-
 .unit-toggle:hover {
     background-color: #0056b3;
 }
-
+/* Radar */
+iframe {
+    width: 100%;            /* Makes the iframe take up the full width of its container */
+    height: 400px;          /* Sets a fixed height */
+    border: none;           /* Removes the iframe's border */
+    border-radius: 15px;    /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
 /* Footer */
 footer {
     text-align: center;
@@ -234,5 +328,8 @@ footer {
         width: 50px;
         height: 50px;
         font-size: 10px;
+    }
+    iframe {
+        height: 300px; /* Adjust height for smaller screens */
     }
 }

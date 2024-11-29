@@ -28,15 +28,21 @@ header .logo h1 {
 }
 
 /* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 45px;
+    width: 100%;
+}
+
 nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
     margin: 0;
     padding: 0;
-    padding-bottom: 35px;
-    padding-top: 35px;
-    padding-right: 35px;
 }
 
 nav ul li {
@@ -61,28 +67,42 @@ main {
     margin: 0 auto;
 }
 
+/* Homepage Layout */
+.homepage-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Two columns: search section and tiles */
+    grid-gap: 20px; /* Space between sections */
+    align-items: start; /* Align items to the top */
+    margin-top: 50px;
+}
+
 /* Search Section */
+#search-section {
+    display: flex;
+    flex-direction: column; /* Stack title, subtitle, and search bar */
+    justify-content: flex-start;
+    gap: 20px;
+}
+
 #search {
-    text-align: center;
-    margin: 20px 0;
+    display: flex; /* Search input and button side by side */
+    gap: 10px;
 }
 
 #search input {
     padding: 10px;
-    width: 60%;
-    max-width: 400px;
+    width: 100%; /* Full width within the container */
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 16px;
 }
 
 #search button {
-    padding: 10px 15px;
-    border: none;
+    padding: 10px 20px;
     background-color: #007BFF;
     color: white;
+    border: none;
     border-radius: 5px;
-    margin-left: 5px;
     font-size: 16px;
     cursor: pointer;
 }
@@ -92,44 +112,49 @@ main {
 }
 
 /* Weather Tiles */
-.weather-tile {
+.weather-tiles-container {
+    display: flex;
+    justify-content: flex-start; /* Align tiles to the left */
+    gap: 20px; /* Space between tiles */
+    flex-wrap: wrap; /* Wrap tiles on smaller screens */
+}
+
+.weather-tiles {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
-    margin: 20px 0;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 200px; /* Fixed width for tiles */
 }
 
-.weather-card {
+/* Country Selector */
+#country-selector {
+    grid-column: span 2; /* Span both columns of the grid */
     display: flex;
-    flex-direction: row; /* Align tiles horizontally */
-    gap: 20px; /* Adds space between each tile */
-    justify-content: flex-start;
-    overflow-x: auto; /* Allows scrolling if there are too many tiles */
+    justify-content: center; /* Center the circles horizontally */
+    gap: 15px; /* Space between circles */
+    margin-top: 20px;
+    flex-wrap: wrap; /* Wrap circles on smaller screens */
 }
 
-/* Individual Weather Tile (for hourly and weekly forecasts) */
-.tile {
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    margin: 5px; /* Adds margin to prevent touching */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.country-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #0056b3;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
     text-align: center;
-    width: 150px; /* Fixed width for tiles */
-    flex-shrink: 0; /* Prevents shrinking of tiles */
 }
 
-.tile img {
-    max-width: 100px; /* Ensures icons are not too large */
-    height: auto; /* Maintains aspect ratio */
-    margin: 10px auto;
-}
-
-.tile p {
-    margin: 5px 0;
-    font-size: 14px;
+.country-circle:hover {
+    background-color: #007BFF;
 }
 
 /* Hourly and Weekly Containers */
@@ -142,6 +167,29 @@ main {
     overflow-x: auto; /* Allows horizontal scrolling */
     padding: 10px 0;
     flex-wrap: nowrap; /* Prevents wrapping to the next line */
+}
+
+/* Individual Weather Tile (for hourly and weekly forecasts) */
+.tile {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 150px;
+    flex-shrink: 0; /* Prevents shrinking of tiles */
+}
+
+.tile img {
+    max-width: 100px;
+    height: auto;
+    margin: 10px auto;
+}
+
+.tile p {
+    margin: 5px 0;
+    font-size: 14px;
 }
 
 /* Unit Toggle Button */
@@ -166,99 +214,25 @@ main {
 /* Footer */
 footer {
     text-align: center;
-    padding: 10px;
-    background: white;
-    margin-top: 20px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.weather-tiles-container {
-    display: flex;              /* Enable flexbox layout */
-    justify-content: space-between; /* Distribute the tiles evenly */
-    align-items: center;        /* Vertically center the tiles */
-    margin-top: 20px;
-    gap: 20px;                  /* Optional: Add space between the tiles */
-}
-
-.tile {
-    width: 200px;               /* Set width of each tile */
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    text-align: center;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* Optional: Add a subtle shadow for better visuals */
-}
-
-.tile img {
-    width: 50px;
-    height: 50px;
-}
-
-.tile h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.tile p {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-/* Container for country selector */
-#country-selector {
-    display: flex;
-    flex-wrap: wrap; /* Allows wrapping if too many items */
-    justify-content: center; /* Centers the circles horizontally */
-    gap: 10px; /* Space between circles */
     padding: 20px;
-}
-
-/* Style for individual country circles */
-.country-circle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;  /* Size of the circle */
-    height: 50px;
-    border-radius: 50%; /* Makes the div circular */
-    background-color: #4CAF50; /* Background color */
-    color: white; /* Text color */
-    font-weight: bold;
-    font-size: 12px; /* Adjust size based on your design */
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s; /* Smooth transition */
-}
-
-/* Hover effect for the country circle */
-.country-circle:hover {
-    background-color: #45a049; /* Darker shade on hover */
+    background: #2D3648;
+    margin-top: 80px;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-    #search input {
-        width: 80%;
+    .homepage-layout {
+        grid-template-columns: 1fr; /* Stack sections vertically on small screens */
     }
 
-    .tile {
-        margin: 5px;
-        width: 120px; /* Smaller tiles on mobile */
+    .weather-tiles-container {
+        justify-content: center; /* Center tiles on small screens */
     }
 
-    .weather-card {
-        flex-wrap: wrap; /* Allow wrapping of tiles on smaller screens */
-    }
-
-    .hourly-container, .weekly-container {
-        flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    }
-
-    .unit-toggle {
-        top: 10px;
-        right: 10px;
-        padding: 6px 15px;
-        font-size: 12px;
+    .country-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 10px;
     }
 }

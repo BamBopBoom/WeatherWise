@@ -1,14 +1,18 @@
 /* General Styles */
 body {
-    height: 200%; /* Ensures full screen usage */
-    margin: 0; /* Removes default margin */
-    padding: 0; /* Removes default padding */
     font-family: 'Inter';
-    background-color: #FFF; /* Sky blue fallback */
-    background-image: url('https://www.w3schools.com/w3images/clouds.jpg'); /* Cloud background */
-    background-size: cover; /* Make sure the image covers the entire screen */
-    background-position: center center; /* Center the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 200%; /* Ensures full screen usage */
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.2), 
+            rgba(200, 220, 255, 0.2)
+        ), 
+        url('/static/images/cloud.jpg');
+    background-size: cover; /* Ensures the clouds cover the screen */
+    background-position: center; /* Centers the clouds */
+    background-repeat: no-repeat; /* Prevents tiling */
+    color: #333; /* Text color for contrast *//* Prevents the image from repeating */
 }
 
 
@@ -72,10 +76,11 @@ nav a:hover {
 /* ------------------------------------- */
 /* Main Section Styling */
 main {
-    padding: 100px 20px 20px 20px; /* Added top padding to account for fixed header */
+    padding: 100px 20px 500px 20px; /* Added top padding to account for fixed header */
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    
 }
 h2 {
     font-size: 20pt;
@@ -92,7 +97,7 @@ h2 {
 
 /* Rounded rectangle for homepage */
 .main-container {
-    background: linear-gradient( 89.5deg,  rgba(131,204,255,1) 0.4%, rgba(66,144,251,1) 100.3% );
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
     border-radius: 20px; /* Rounded corners */
     padding: 10px 80px 40px 80px; /* Shortened padding-top to 20px, kept others as 40px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
@@ -162,7 +167,18 @@ h2 {
     text-align: center;
     width: 200px; /* Fixed width for tiles */
 }
+/* Homepage Tiles (For the three cities) */
+.homepage-tile {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 170px;
+    flex-shrink: 0; /* Prevents shrinking of tiles */
 
+}
 /* Country Selector */
 #country-selector {
     grid-column: span 2; /* Span both columns of the grid */
@@ -196,7 +212,7 @@ h2 {
 /* Hourly and Weekly Forecast Sections */
 #hourly-forecast,
 #weekly-forecast {
-    background-color: #fff;
+    background: linear-gradient(135deg, rgba(242, 252, 254, 0.70) 0%, rgba(69, 137, 194, 0.70) 100%);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -211,15 +227,16 @@ h2 {
     overflow-x: auto;/* Prevents wrapping to the next line */
 }
 
-/* Individual Weather Tile (for hourly and weekly forecasts) */
+/* Individual Weather Tile (for current weather tile) */
 .tile {
-    background: white;
+    background: linear-gradient(135deg, rgba(242, 252, 254, 0.70) 0%, rgba(69, 137, 194, 0.70) 100%);
     border-radius: 15px;
-    padding: 15px;
+    padding: 10px;
     margin: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 150px;
+    width: 350px;
+    height: 350px;
     flex-shrink: 0; /* Prevents shrinking of tiles */
 }
 
@@ -250,10 +267,12 @@ h2 {
     border-radius: 15px; /* Rounded corners */
     padding: 20px;
     width: 180%; /* Larger width for the current weather */
+    height: 100%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     display: flex;
     flex-direction: column; /* Stack the elements vertically */
     margin-bottom: 20px; /* Adds space below the current weather tile */
+
 }
 
 
@@ -261,15 +280,13 @@ h2 {
 .forecast-sections {
     display: flex;
     flex-direction: column; /* Stack hourly and weekly vertically */
-    width: 80%; /* Set width for the forecast sections */
+    width: 60%; /* Set width for the forecast sections */
     gap: 20px;
     padding: 10px; /* Adjust padding to reduce space around the section */
     margin: 0 auto; /* Center the forecast sections horizontally */
-    max-height: 800px; /* Set max-height to limit the height */
+    max-height: 400px; /* Set max-height to limit the height */
    
 }
-
-
 
 /* Hourly Forecast Tiles */
 .hourly-forecast {
@@ -278,9 +295,9 @@ h2 {
     gap: 10px; /* Space between each forecast tile */
     margin-top: 10px;
 }
-
+/* Hourly and weekly tile design */
 .forecast-tile {
-    background-color: #fff; /* White background */
+    background: rgba(255, 255, 255, 0.9); /* White background */
     border-radius: 10px; /* Rounded corners */
     padding: 15px; /* Padding inside each forecast tile */
     margin: 5px;
@@ -289,6 +306,7 @@ h2 {
     width: 150px; /* Set width for each tile */
     display: flex;
     flex-direction: column; /* Stack time and weather icon vertically */
+    max-height: 400px;
     
 }
 /* Styles for Hourly Forecast Titles */
@@ -314,11 +332,21 @@ h2 {
 }
 /* Radar */
 iframe {
-    width: 100%;            /* Makes the iframe take up the full width of its container */
-    height: 400px;          /* Sets a fixed height */
+    width: 800px;            /* Makes the iframe take up the full width of its container */
+    height: 800px;          /* Sets a fixed height */
     border: none;           /* Removes the iframe's border */
     border-radius: 15px;    /* Rounded corners */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+.radar-container {
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.6) 0.4%, rgb(84, 152, 248, 0.6) 100.3% );
+    border-radius: 20px; /* Rounded corners */ 
+    padding: 10px 20px 20px 20px; /* Shortened padding-top to 20px, kept others as 40px */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin: 50px 0 auto; /* Centering the container */
+    max-width: 1600px; /* Maximum width */
+    
+    
 }
 /* Footer */
 footer {

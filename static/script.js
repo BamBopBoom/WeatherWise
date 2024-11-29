@@ -243,7 +243,7 @@ function displayWeatherTile(city, data) {
     const iconUrl = data.current.condition.icon.startsWith("http") ? data.current.condition.icon : `https:${data.current.condition.icon}`;
     
     weatherTilesDiv.innerHTML += `
-        <div class="tile">
+        <div class="homepage-tile">
             <h3>${data.location.name}, ${data.location.country}</h3>
             <img src="${iconUrl}" alt="${data.current.condition.text}">
             <p><strong>${temperature} ${temperatureUnit}</strong></p>

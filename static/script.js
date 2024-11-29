@@ -168,7 +168,7 @@ function displayHourlyForecast(data) {
         temperature = roundTemperature(temperature); // Round temperature
 
         hourlyDataDiv.innerHTML += `
-            <div class="tile">
+            <div class="forecast-tile">
                 <h4>${new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</h4>
                 <img src="${loadImageWithFallback(iconUrl, "https://www.weatherapi.com/favicon.ico")}" alt="${hour.condition.text}">
                 <p><strong>${temperature}°</strong></p>
@@ -188,7 +188,7 @@ function displayWeeklyForecast(data) {
         temperature = roundTemperature(temperature); // Round temperature
 
         weeklyDataDiv.innerHTML += `
-            <div class="tile">
+            <div class="forecast-tile">
                 <h4>${new Date(day.date).toLocaleDateString()}</h4>
                 <img src="${loadImageWithFallback(iconUrl, "https://www.weatherapi.com/favicon.ico")}" alt="${day.day.condition.text}">
                 <p><strong>${temperature}°</strong></p>

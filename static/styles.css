@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    height: 100%; /* Ensures full screen usage */
+    height: 200%; /* Ensures full screen usage */
     margin: 0; /* Removes default margin */
     padding: 0; /* Removes default padding */
     font-family: 'Inter';
@@ -193,17 +193,22 @@ h2 {
 }
 /* ------------------------------------- */
 
+/* Hourly and Weekly Forecast Sections */
+#hourly-forecast,
+#weekly-forecast {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
 /* Hourly and Weekly Containers */
 .hourly-container,
 .weekly-container {
     display: flex;
-    flex-direction: row; /* Align forecast items horizontally */
-    gap: 20px; /* Adds space between items */
-    justify-content: flex-start;
-    overflow-x: auto; /* Allows horizontal scrolling */
-    padding: 10px 0;
-    flex-wrap: nowrap; /* Prevents wrapping to the next line */
+    gap: 20px;
+    flex-wrap: nowrap; /* Prevent wrapping on small screens */
+    overflow-x: auto;/* Prevents wrapping to the next line */
 }
 
 /* Individual Weather Tile (for hourly and weekly forecasts) */
@@ -228,34 +233,43 @@ h2 {
     margin: 5px 0;
     font-size: 14px;
 }
+
+/* Weather Container for Current Weather and Forecast */
+.weather-container {
+    display: flex;
+    gap: 30px; /* Space between current weather and forecast */
+    justify-content: flex-start;
+    align-items: flex-start; /* Align items at the top */
+    margin: 20px auto; /* Center the container with margin */
+    max-width: 1600px; /* Maximum width for the container */
+    width: 100%;
+}
 /* Current Weather Tile */
 .current-weather {
     background-color: #fff; /* White background */
     border-radius: 15px; /* Rounded corners */
-    padding: 20px; /* Padding inside the box */
-    width: 60%; /* Larger width for the current weather */
+    padding: 20px;
+    width: 180%; /* Larger width for the current weather */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     display: flex;
     flex-direction: column; /* Stack the elements vertically */
     margin-bottom: 20px; /* Adds space below the current weather tile */
 }
 
-/* Weather Container for Current Weather and Forecast */
-.weather-container {
+
+/* Forecast Section Container (Hourly and Weekly) */
+.forecast-sections {
     display: flex;
-    gap: 20px; /* Space between current weather and forecast */
-    justify-content: space-between;
-    align-items: flex-start; /* Align items at the top */
-    margin: 20px auto; /* Center the container with margin */
-    max-width: 1200px; /* Maximum width for the container */
+    flex-direction: column; /* Stack hourly and weekly vertically */
+    width: 80%; /* Set width for the forecast sections */
+    gap: 20px;
+    padding: 10px; /* Adjust padding to reduce space around the section */
+    margin: 0 auto; /* Center the forecast sections horizontally */
+    max-height: 800px; /* Set max-height to limit the height */
+   
 }
 
-/* Hourly Forecast Container */
-.forecast-container {
-    width: 35%; /* Smaller width for the forecast container */
-    display: flex;
-    flex-direction: column;
-}
+
 
 /* Hourly Forecast Tiles */
 .hourly-forecast {
@@ -268,14 +282,15 @@ h2 {
 .forecast-tile {
     background-color: #fff; /* White background */
     border-radius: 10px; /* Rounded corners */
-    padding: 10px; /* Padding inside each forecast tile */
+    padding: 15px; /* Padding inside each forecast tile */
+    margin: 5px;
     text-align: center; /* Center text */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    width: 100px; /* Set width for each tile */
+    width: 150px; /* Set width for each tile */
     display: flex;
     flex-direction: column; /* Stack time and weather icon vertically */
+    
 }
-
 /* Styles for Hourly Forecast Titles */
 .forecast-tile p {
     margin: 5px 0;
@@ -311,6 +326,7 @@ footer {
     padding: 20px;
     background: #2D3648;
     margin-top: 80px;
+    margin-bottom: 20px; 
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -331,5 +347,16 @@ footer {
     }
     iframe {
         height: 300px; /* Adjust height for smaller screens */
+    }
+    .weather-container {
+        flex-direction: column; /* Stack the sections vertically on small screens */
+    }
+
+    .current-weather {
+        width: 100%; /* Take up full width for mobile */
+    }
+
+    .forecast-sections {
+        width: 100%; /* Forecast section takes full width on mobile */
     }
 }

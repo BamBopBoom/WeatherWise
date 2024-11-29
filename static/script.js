@@ -161,8 +161,18 @@ function fetchWeeklyForecast(city) {
 
 // Display hourly forecast
 function displayHourlyForecast(data) {
+    // Get the current time
+    const currentTime = new Date();
+    
+    // Filter out past hours from the forecast data
+    const futureData = data.filter(hour => {
+        const forecastTime = new Date(hour.time);
+        return forecastTime >= currentTime; // Only include future hours
+    });
+
     hourlyDataDiv.innerHTML = `<div class="hourly-container">`;
-    data.forEach((hour) => {
+
+    futureData.forEach((hour) => {
         const iconUrl = hour.condition.icon.startsWith("http") ? hour.condition.icon : `https:${hour.condition.icon}`;
         let temperature = unit === "metric" ? hour.temp_c : convertToFahrenheit(hour.temp_c);
         temperature = roundTemperature(temperature); // Round temperature
@@ -176,8 +186,10 @@ function displayHourlyForecast(data) {
             </div>
         `;
     });
+
     hourlyDataDiv.innerHTML += `</div>`;
 }
+
 
 // Display weekly forecast
 function displayWeeklyForecast(data) {

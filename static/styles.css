@@ -47,6 +47,7 @@ nav {
     position: absolute;
     top: 45px;
     width: 100%;
+    bottom: 45px;
 }
 
 nav ul {
@@ -170,6 +171,7 @@ h2 {
 /* Homepage Tiles (For the three cities) */
 .homepage-tile {
     background: white;
+    font-size: 16pt;
     border-radius: 15px;
     padding: 15px;
     margin: 5px;
@@ -212,7 +214,7 @@ h2 {
 /* Hourly and Weekly Forecast Sections */
 #hourly-forecast,
 #weekly-forecast {
-    background: linear-gradient(135deg, rgba(242, 252, 254, 0.70) 0%, rgba(69, 137, 194, 0.70) 100%);
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -229,7 +231,7 @@ h2 {
 
 /* Individual Weather Tile (for current weather tile) */
 .tile {
-    background: linear-gradient(135deg, rgba(242, 252, 254, 0.70) 0%, rgba(69, 137, 194, 0.70) 100%);
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
     border-radius: 15px;
     padding: 10px;
     margin: 5px;

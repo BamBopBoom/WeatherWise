@@ -98,7 +98,8 @@ h2 {
 
 /* Rounded rectangle for homepage */
 .main-container {
-    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.4) 0.4%, rgb(84, 152, 248, 0.4) 100.3% );
+    backdrop-filter: blur(6px);
     border-radius: 20px; /* Rounded corners */
     padding: 10px 80px 40px 80px; /* Shortened padding-top to 20px, kept others as 40px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
@@ -108,7 +109,8 @@ h2 {
     
 }
 .frontrect-container {
-    background: #FFF;
+    background: #ffffffc8;
+    backdrop-filter: blur(6px);
     border-radius: 20px; /* Rounded corners */
     padding: 10px 20px 40px 20px; /* Shortened padding-top to 20px, kept others as 40px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
@@ -170,8 +172,8 @@ h2 {
 }
 /* Homepage Tiles (For the three cities) */
 .homepage-tile {
-    background: white;
-    font-size: 16pt;
+    background: #ffffffc8;
+    font-size: 12pt;
     border-radius: 15px;
     padding: 15px;
     margin: 5px;
@@ -214,7 +216,9 @@ h2 {
 /* Hourly and Weekly Forecast Sections */
 #hourly-forecast,
 #weekly-forecast {
-    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.4) 0.4%, rgb(84, 152, 248, 0.4) 100.3% );
+    box-shadow: inset 0 0 2000px #ffffffc8, 0.4;
+    backdrop-filter: blur(6px);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -231,20 +235,22 @@ h2 {
 
 /* Individual Weather Tile (for current weather tile) */
 .tile {
-    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.65) 0.4%, rgb(84, 152, 248, 0.65) 100.3% );
+    background: linear-gradient( 135deg,  rgba(253, 253, 253, 0.4) 0.4%, rgba(65, 142, 249, 0.4) 100.3% );
+    backdrop-filter: blur(6px);
     border-radius: 15px;
     padding: 10px;
     margin: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 2000px #ffffffc8, 0.4;
     text-align: center;
     width: 350px;
-    height: 350px;
+    height: 510px;
     flex-shrink: 0; /* Prevents shrinking of tiles */
 }
 
 .tile img {
     max-width: 100px;
-    height: auto;
+    height: 100px;
+    width: auto;
     margin: 10px auto;
 }
 
@@ -252,7 +258,36 @@ h2 {
     margin: 5px 0;
     font-size: 14px;
 }
+/*for the current weather tile boxes*/
+.weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for the boxes */
+    grid-gap: 10px; /* Space between boxes */
+    margin-top: 20px;
+}
 
+.detail-box {
+    background: #ffffffc8, 0.7;
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.detail-box p {
+    margin: 5px 0;
+    font-size: 20px;
+    font-family: 'Inter';
+}
+/* Sizing for current weather tile (top portion) */
+h5 {
+    font-size: 20pt; 
+    font-weight: bold;
+}
+h6 {
+    font-size: 15pt;
+}
 /* Weather Container for Current Weather and Forecast */
 .weather-container {
     display: flex;
@@ -263,19 +298,7 @@ h2 {
     max-width: 1600px; /* Maximum width for the container */
     width: 100%;
 }
-/* Current Weather Tile */
-.current-weather {
-    background-color: #fff; /* White background */
-    border-radius: 15px; /* Rounded corners */
-    padding: 20px;
-    width: 180%; /* Larger width for the current weather */
-    height: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    display: flex;
-    flex-direction: column; /* Stack the elements vertically */
-    margin-bottom: 20px; /* Adds space below the current weather tile */
 
-}
 
 
 /* Forecast Section Container (Hourly and Weekly) */
@@ -299,16 +322,18 @@ h2 {
 }
 /* Hourly and weekly tile design */
 .forecast-tile {
-    background: rgba(255, 255, 255, 0.9); /* White background */
+    background: #ffffffc8; /* White background */
     border-radius: 10px; /* Rounded corners */
-    padding: 15px; /* Padding inside each forecast tile */
-    margin: 5px;
+    padding: 15px; /* Adjust padding to fit content better */
+    margin: 5px; /* Space between tiles */
     text-align: center; /* Center text */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    width: 150px; /* Set width for each tile */
+    width: 200px; /* Fixed width */
+    height: 200px; /* Equal height for a square */
     display: flex;
     flex-direction: column; /* Stack time and weather icon vertically */
-    max-height: 400px;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
     
 }
 /* Styles for Hourly Forecast Titles */
@@ -388,5 +413,8 @@ footer {
 
     .forecast-sections {
         width: 100%; /* Forecast section takes full width on mobile */
+    }
+    .weather-details {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
     }
 }

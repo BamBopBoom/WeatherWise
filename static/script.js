@@ -193,23 +193,38 @@ function displayHourlyForecast(data) {
 
 // Display weekly forecast
 function displayWeeklyForecast(data) {
+    // Get the current date
+    const today = new Date();
+
+    // Sort the data to start from the current day and include today
+    const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date))
+        .filter(day => new Date(day.date).setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0)); // Include today
+
+    // Clear and start creating the weekly forecast container
     weeklyDataDiv.innerHTML = `<div class="weekly-container">`;
-    data.forEach((day) => {
+
+    // Loop through the sorted data
+    sortedData.forEach((day) => {
         const iconUrl = day.day.condition.icon.startsWith("http") ? day.day.condition.icon : `https:${day.day.condition.icon}`;
         let temperature = unit === "metric" ? day.day.avgtemp_c : day.day.avgtemp_f;
         temperature = roundTemperature(temperature); // Round temperature
 
+        // Add each day's forecast as a tile
         weeklyDataDiv.innerHTML += `
             <div class="forecast-tile">
-                <h4>${new Date(day.date).toLocaleDateString()}</h4>
+                <h4>${new Date(day.date).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}</h4>
                 <img src="${loadImageWithFallback(iconUrl, "https://www.weatherapi.com/favicon.ico")}" alt="${day.day.condition.text}">
                 <p><strong>${temperature}°</strong></p>
                 <p>${day.day.condition.text}</p>
             </div>
         `;
     });
+
+    // Close the container
     weeklyDataDiv.innerHTML += `</div>`;
 }
+
+
 
 
 // Convert Celsius to Fahrenheit
@@ -234,12 +249,28 @@ function displayWeatherData(data) {
 
     weatherDataDiv.innerHTML = `
         <div class="tile">
-            <h3>${data.location.name}, ${data.location.country}</h3>
+            <h5>${data.location.name}</h5>
+            <h6>${data.location.country}</h6>
             <img src="${loadImageWithFallback(iconUrl, fallbackIcon)}" alt="${data.current.condition.text}">
-            <p><strong>Temperature:</strong> ${temperature} ${temperatureUnit}</p>
-            <p><strong>Weather:</strong> ${data.current.condition.text}</p>
-            <p><strong>Humidity:</strong> ${data.current.humidity}%</p>
-            <p><strong>Wind Speed:</strong> ${data.current.wind_kph} ${windSpeedUnit}</p>
+            <div class="weather-details">
+
+                <div class="detail-box">
+                    <p><strong>Temperature:</strong></p>
+                    <p>${temperature} ${temperatureUnit}</p>
+                </div>
+                <div class="detail-box">
+                    <p><strong>Weather:</strong></p>
+                    <p>${data.current.condition.text}</p>
+                </div>
+                <div class="detail-box">
+                    <p><strong>Humidity:</strong></p>
+                    <p>${data.current.humidity}%</p>
+                </div>
+                <div class="detail-box">
+                    <p><strong>Wind Speed:</strong></p>
+                    <p>${data.current.wind_kph} ${windSpeedUnit}</p>
+                </div>
+            </div>
         </div>
     `;
 }

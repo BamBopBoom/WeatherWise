@@ -4,7 +4,9 @@ import requests
 app = Flask(__name__)
 
 API_KEY = "f5807df07b91404b8a2180331242411"  # Replace with your WeatherAPI.com API key
+NEWS_API_KEY = "77793f9af3b34ef393749d7a295fe705"  # Replace with your NewsAPI key
 BASE_URL = "https://api.weatherapi.com/v1/"
+NEWS_API_URL = "https://newsapi.org/v2/everything?q=weather&apiKey="  # Base URL for NewsAPI
 
 @app.route("/")
 def home():
@@ -20,7 +22,30 @@ def radar():
 
 @app.route("/news")
 def news():
-    return render_template("news.html")
+    try:
+        # Fetch news from the News API
+        url = f"{NEWS_API_URL}{NEWS_API_KEY}"
+        response = requests.get(url)
+        data = response.json()
+
+        # Check if the response contains articles
+        if response.status_code == 200 and "articles" in data:
+            articles = data["articles"]
+
+            # Filter out articles with missing or invalid data
+            filtered_articles = [
+                article for article in articles 
+                if article.get("title") 
+                and article.get("urlToImage") 
+                and article.get("url")
+            ]
+
+            return render_template("news.html", articles=filtered_articles)
+        else:
+            error_message = data.get("error", {}).get("message", "Error fetching news")
+            return render_template("news.html", error=error_message)
+    except Exception as e:
+        return render_template("news.html", error=str(e))
 
 @app.route("/current_weather", methods=["GET"])
 def get_current_weather():

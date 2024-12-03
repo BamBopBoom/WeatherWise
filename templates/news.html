@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeatherWise</title>
+    <title>WeatherWise News</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -22,26 +22,24 @@
         </nav>
     </header>
     <main>
-        <!-- Search Section -->
-        <section id="search-section">
-            <h2>Providing Millions With<br>World Wide Weather</h2>
-            <div id="search">
-            <input type="text" id="city" placeholder="Enter city name">
-            <button id="search-btn">Search</button>
-            </div>
-        </section>
-
         <!-- News Section -->
-        <section id="news">
-            <h2>Top Weather Stories</h2>
-            <div id="news-data">
-                <!-- News placeholder -->
-            </div>
+        <section id="news-container">
+            {% if error %}
+                <p>Error loading news: {{ error }}</p>
+            {% else %}
+                <div class="news-grid">
+                    {% for article in articles %}
+                        <a href="{{ article.url }}" target="_blank" class="news-tile">
+                            <img src="{{ article.urlToImage or '/static/default-news.jpg' }}" alt="{{ article.title }}" class="news-image">
+                            <div class="news-title">{{ article.title }}</div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </section>
     </main>
     <footer>
         <p>&copy; 2024 WeatherWise. All rights reserved.</p>
     </footer>
-    <script src="/static/script.js"></script>
 </body>
 </html>

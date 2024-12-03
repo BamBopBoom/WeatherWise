@@ -1,4 +1,5 @@
 const apiKey = "f5807df07b91404b8a2180331242411"; // Replace with your WeatherAPI.com API key
+const API_KEY = '77793f9af3b34ef393749d7a295fe705';// Replace with your newsapi.org API key
 const cityInput = document.getElementById("city");
 const searchButton = document.getElementById("search-btn");
 const weatherDataDiv = document.getElementById("weather-data");
@@ -399,3 +400,48 @@ function loadImageWithFallback(src, fallbackSrc) {
     };
     return img.src;
 }
+
+//function to load news
+document.addEventListener("DOMContentLoaded", () => {
+    const newsContainer = document.getElementById("news-list");
+
+    const NEWS_API_URL = `https://newsapi.org/v2/everything?q=weather&apiKey=YOUR_API_KEY`;
+
+    fetch(NEWS_API_URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch news: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayNews(data.articles);
+        })
+        .catch(error => {
+            console.error(error);
+            newsContainer.innerHTML = `<p>Unable to load news at the moment. Please try again later.</p>`;
+        });
+
+    function displayNews(articles) {
+        if (!articles || articles.length === 0) {
+            newsContainer.innerHTML = `<p>No news articles found.</p>`;
+            return;
+        }
+
+        newsContainer.innerHTML = ""; // Clear any placeholder text
+        articles.forEach(article => {
+            if (!article.urlToImage || !article.url) return; // Skip if missing an image or link
+
+            // Create clickable tile
+            const newsTile = document.createElement("a");
+            newsTile.className = "news-tile";
+            newsTile.href = article.url;
+            newsTile.target = "_blank"; // Open link in a new tab
+            newsTile.innerHTML = `
+                <img src="${article.urlToImage}" alt="News Image">
+            `;
+
+            newsContainer.appendChild(newsTile);
+        });
+    }
+});

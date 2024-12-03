@@ -90,10 +90,32 @@ h2 {
 /* Homepage Layout */
 .homepage-layout {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Two columns: search section and tiles */
-    grid-gap: 20px; /* Space between sections */
+    grid-template-columns: 1fr 2fr; /* Two columns: clock + search section and tiles */
+    grid-template-rows: 150px auto; /* Two rows: one for the clock and one for the search section */
+    row-gap: 10px;   /* Space between sections */
+    column-gap: 20px;
     align-items: start; /* Align items to the top */
-    margin-top: 50px;
+    
+}
+/* Clock Container */
+#clock-container {
+    display: flex;
+    justify-content: center; /* Center the clock horizontally */
+    align-items: center;
+    grid-column: 1; /* Place clock in the first column */
+    grid-row: 1; /* Place clock in the first row */
+    padding-top: 50px;
+    margin-left: 50px;
+    margin-top: 150px;
+    padding: 10px 10px 10px 10px;
+    width: 200px;
+    height: 50px;
+    font-size: 1.5rem; /* Larger font size */
+    color: #0056b3; /* Match primary theme color */
+    background: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 10;
 }
 
 /* Rounded rectangle for homepage */
@@ -112,10 +134,12 @@ h2 {
     background: #ffffffc8;
     backdrop-filter: blur(6px);
     border-radius: 20px; /* Rounded corners */
-    padding: 10px 20px 40px 20px; /* Shortened padding-top to 20px, kept others as 40px */
+    padding: 10px 10px 40px 10px; /* Shortened padding-top to 20px, kept others as 40px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    margin: 50px 0 auto; /* Centering the container */
+    margin-top: 75px;
     max-width: 1600px; /* Maximum width */
+    grid-column: 1; /* Place search section in the first column */
+    grid-row: 2;
     z-index: 1;
 }
 /* Search Section */
@@ -124,7 +148,8 @@ h2 {
     flex-direction: column; /* Stack title, subtitle, and search bar */
     justify-content: flex-start;
     gap: 20px;
-    z-index: 2
+    grid-column: 1; /* Place search section in the first column */
+    grid-row: 2; /* Place search section below the clock */
 }
 
 #search {
@@ -160,6 +185,9 @@ h2 {
     justify-content: flex-start; /* Align tiles to the left */
     gap: 20px; /* Space between tiles */
     flex-wrap: wrap; /* Wrap tiles on smaller screens */
+    grid-column: 2; /* Place tiles in the second column */
+    grid-row: span 2; /* Allow tiles to span both rows */
+    margin-top: 160px;
 }
 
 .weather-tiles {
@@ -265,7 +293,19 @@ h2 {
     grid-gap: 10px; /* Space between boxes */
     margin-top: 20px;
 }
-
+.icon-box {
+    background: #ffffffc8, 0.7;
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    height: 100px;
+    width: 100px;
+    margin-left: 110px;
+    margin-bottom: 10px;
+}
 .detail-box {
     background: #ffffffc8, 0.7;
     backdrop-filter: blur(6px);

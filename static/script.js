@@ -49,6 +49,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+//Clock Section
+function updateClock() {
+    const clockElement = document.getElementById("clock");
+
+    // Get the current date and time
+    const now = new Date();
+
+    // Format hours, minutes, and seconds for 12-hour clock
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    // Determine AM or PM
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12;
+
+    // Update the clock with the current time
+    clockElement.textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initialize the clock immediately on page load
+updateClock();
+
+
 
 // Event listener for the search button
 searchButton.addEventListener("click", () => {
@@ -251,7 +280,9 @@ function displayWeatherData(data) {
         <div class="tile">
             <h5>${data.location.name}</h5>
             <h6>${data.location.country}</h6>
+            <div class="icon-box">
             <img src="${loadImageWithFallback(iconUrl, fallbackIcon)}" alt="${data.current.condition.text}">
+            </div>
             <div class="weather-details">
 
                 <div class="detail-box">

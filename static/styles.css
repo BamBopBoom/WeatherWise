@@ -1,6 +1,7 @@
 /* General Styles */
 body {
     font-family: 'Inter';
+    text-transform: uppercase;
     height: 200%; /* Ensures full screen usage */
     margin: 0;
     padding: 0;
@@ -84,7 +85,8 @@ main {
     
 }
 h2 {
-    font-size: 20pt;
+    font-size: 18pt;
+    text-transform: none;
     font-family: "Inter";
 }
 /* Homepage Layout */
@@ -202,6 +204,7 @@ h2 {
 .homepage-tile {
     background: #ffffffc8;
     font-size: 12pt;
+    text-transform: none;
     border-radius: 15px;
     padding: 15px;
     margin: 5px;
@@ -232,6 +235,7 @@ h2 {
     color: white;
     font-weight: bold;
     font-size: 20px;
+    text-transform: none;
     cursor: pointer;
     text-align: center;
 }

@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "f5807df07b91404b8a2180331242411"  # Replace with your WeatherAPI.com API key
+API_KEY = "6523be82bf3340bebe8164203240812"  # Replace with your WeatherAPI.com API key
 NEWS_API_KEY = "77793f9af3b34ef393749d7a295fe705"  # Replace with your NewsAPI key
 BASE_URL = "https://api.weatherapi.com/v1/"
 NEWS_API_URL = "https://newsapi.org/v2/everything?q=weather&apiKey="  # Base URL for NewsAPI

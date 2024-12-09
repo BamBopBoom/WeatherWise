@@ -1,5 +1,4 @@
-const apiKey = "f5807df07b91404b8a2180331242411"; // Replace with your WeatherAPI.com API key
-const API_KEY = '77793f9af3b34ef393749d7a295fe705';// Replace with your newsapi.org API key
+
 const cityInput = document.getElementById("city");
 const searchButton = document.getElementById("search-btn");
 const weatherDataDiv = document.getElementById("weather-data");
@@ -81,26 +80,38 @@ updateClock();
 
 
 // Event listener for the search button
-searchButton.addEventListener("click", () => {
+searchButton.addEventListener("click", async () => {
     const city = cityInput.value.trim();
+
     if (!city) {
+        // If city input is empty, get user location
         getUserLocation();
         return;
     }
 
-    // Save city in localStorage and redirect to forecast page
-    localStorage.setItem("selectedCity", city);
+    // Save city in localStorage only if it's different from the last saved city
+    const previousCity = localStorage.getItem("selectedCity");
+    if (city !== previousCity) {
+        localStorage.setItem("selectedCity", city);
+    }
 
     if (window.location.pathname === "/forecast") {
-        // If already on forecast page, fetch data directly
-        fetchWeatherData(city);
-        fetchHourlyForecast(city);
-        fetchWeeklyForecast(city);
+        try {
+            // If already on forecast page, fetch data directly
+            await fetchWeatherData(city);
+            await fetchHourlyForecast(city);
+            await fetchWeeklyForecast(city);
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+            // Display user-friendly message if fetching fails
+            alert("Sorry, there was an issue fetching weather data. Please try again later.");
+        }
     } else {
         // Redirect to forecast page
         window.location.href = "/forecast";
     }
 });
+
 
 // Automatically get user's location if no city is entered
 function getUserLocation() {
@@ -328,44 +339,92 @@ function displayWeatherTile(city, data) {
 }
 
 
-// Function to fetch weather data for a city [index.html]
+
+// Function to get user's location and fetch nearby cities' weather data
 function fetchWeatherDataForCity(city) {
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(city)}&aqi=no`;
+    const url = `/current_weather?city=${encodeURIComponent(city)}`;
+
     fetch(url)
         .then(response => response.json())
-        .then(data => displayWeatherTile(city, data))
-        .catch(error => console.error("Error fetching weather data for city:", error));
+        .then(data => {
+            if (data.error) {
+                console.error(`Error fetching weather data for ${city}:`, data.error);
+                return;
+            }
+
+            // Debug: Log the entire data object for inspection
+            console.log(`Weather data for ${city}:`, data);
+
+            // Extract country and determine temperature unit
+            const country = data.location.country;
+            const isImperial = country === "United States" || country === "United States of America"; // Handle both formats
+            const temperature = isImperial ? data.current.temp_f : data.current.temp_c;
+            const temperatureUnit = isImperial ? "°F" : "°C";
+
+            // Debug: Log the country and temperature details
+            console.log(
+                `Detected country for ${city}: ${country}, Temperature: ${temperature} ${temperatureUnit}`
+            );
+
+            // Weather icon URL
+            const iconUrl = data.current.condition.icon.startsWith("http")
+                ? data.current.condition.icon
+                : `https:${data.current.condition.icon}`;
+
+            // Add the weather tile to the homepage
+            const weatherTilesDiv = document.getElementById("nearby-weather-tiles");
+            weatherTilesDiv.innerHTML += `
+                <div class="homepage-tile" onclick="redirectToForecast('${city}')">
+                    <h3>${data.location.name}, ${data.location.country}</h3>
+                    <img src="${iconUrl}" alt="${data.current.condition.text}">
+                    <p><strong>${temperature} ${temperatureUnit}</strong></p>
+                    <p>${data.current.condition.text}</p>
+                </div>
+            `;
+        })
+        .catch(error => console.error(`Error fetching weather data:`, error));
 }
 
-// Function to get user's location and fetch nearby cities' weather data [index.html]
+// Redirect to forecast page
+function redirectToForecast(city) {
+    localStorage.setItem("selectedCity", city);
+    window.location.href = "/forecast";
+}
+
+// Fetch weather for nearby cities
 function getUserLocationAndFetchWeather() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
-                
-                // You can use reverse geocoding to find nearby cities, or just use a fixed set of cities near the location
-                // For simplicity, let's use a few predefined cities nearby (you could extend this logic)
+
+                // Debug: Log the user's location
+                console.log(`User's location: Latitude ${lat}, Longitude ${lon}`);
+
+                // Example hardcoded nearby cities (you can replace this with actual reverse geocoding logic)
                 const nearbyCities = ["Los Angeles", "San Francisco", "Chicago"];
-                
+
                 nearbyCities.forEach(city => fetchWeatherDataForCity(city));
             },
             (error) => {
                 console.log("Unable to fetch your location. Using fallback cities.");
+                const fallbackCities = ["New York", "Miami", "Seattle"];
                 fallbackCities.forEach(city => fetchWeatherDataForCity(city));
             }
         );
     } else {
-        console.log("Geolocation is not supported by this browser. Using fallback cities.");
-        fallbackCities.forEach(city => fetchWeatherDataForCity(city));
+        console.log("Geolocation is not supported by this browser.");
     }
 }
 
-// Call the function on page load to get the weather data for nearby cities or fallback cities
+// Initialize weather tiles
 document.addEventListener("DOMContentLoaded", () => {
     getUserLocationAndFetchWeather();
 });
+
+
+
 
 // Function to create and display the country circles
 function displayCountrySelector() {
@@ -400,6 +459,7 @@ function loadImageWithFallback(src, fallbackSrc) {
     };
     return img.src;
 }
+
 
 //function to load news
 document.addEventListener("DOMContentLoaded", () => {

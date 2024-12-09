@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     font-family: 'Inter';
-    text-transform: uppercase;
+    
     height: 200%; /* Ensures full screen usage */
     margin: 0;
     padding: 0;
@@ -92,6 +92,7 @@ h2 {
     text-transform: none;
     font-family: "Inter";
 }
+/* v-----------------------------------------HomePage Section-------------------------------v */
 /* Homepage Layout */
 .homepage-layout {
     display: grid;
@@ -221,7 +222,7 @@ h2 {
 /* Hover effect for the weather tile */
 .homepage-tile:hover {
     transform: translateY(-10px); /* Lift the tile slightly */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
     cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
 }
 
@@ -229,7 +230,7 @@ h2 {
     transition: transform 0.3s ease;
 }
 
-/* Optional: Add hover effect for the image */
+/*Add hover effect for the image */
 .homepage-tile:hover img {
     transform: scale(1.1); /* Slight zoom effect on image */
 }
@@ -266,7 +267,9 @@ h2 {
     transform: scale(1.1); /* Slightly grow the circle */
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.15); /* Shadow for depth */
 }
-/* ------------------------------------- */
+/* ^-----------------------------------------Homepage Section-------------------------------^ */
+
+/* v-----------------------------------------Forecast Section-------------------------------v */
 
 /* Hourly and Weekly Forecast Sections */
 #hourly-forecast,
@@ -305,6 +308,15 @@ h2 {
     transform: scale(1.05);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
+.tile img {
+    transition: transform 0.3s ease;
+}
+
+/*Add hover effect for the image */
+.tile:hover img {
+    transform: scale(1.1); /* Slight zoom effect on image */
+}
+
 .tile img {
     max-width: 100px;
     height: 100px;
@@ -483,6 +495,8 @@ h6 {
 .unit-toggle:hover {
     background-color: #0056b3;
 }
+/* ^-----------------------------------------Forecast Section-------------------------------^ */
+/* v-----------------------------------------Radar Section-------------------------------v */
 /* Radar */
 iframe {
     width: 800px;            /* Makes the iframe take up the full width of its container */
@@ -492,7 +506,8 @@ iframe {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 .radar-container {
-    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.6) 0.4%, rgb(84, 152, 248, 0.6) 100.3% );
+    background: linear-gradient( 135deg,  rgb(104, 183, 239, 0.4) 0.4%, rgb(84, 152, 248, 0.4) 100.3% );
+    backdrop-filter: blur(6px);
     border-radius: 20px; /* Rounded corners */ 
     padding: 10px 20px 20px 20px; /* Shortened padding-top to 20px, kept others as 40px */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
@@ -501,7 +516,9 @@ iframe {
     
     
 }
-/* News Section */
+/* ^-----------------------------------------Radar Section-------------------------------^ */
+
+/* v-----------------------------------------News Section-------------------------------v */
 /* Container for the grid */
 .news-grid {
     display: flex;
@@ -546,7 +563,7 @@ iframe {
     background-color: #f9f9f9;
     border-top: 1px solid #ddd;
 }
-
+/* ^-----------------------------------------News Section-------------------------------^ */
 
 
 /* Footer */

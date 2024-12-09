@@ -52,17 +52,32 @@ def news():
 def get_current_weather():
     city = request.args.get("city", "New York")  # Default to New York
     try:
+        # Construct the API request URL
         url = f"{BASE_URL}current.json?key={API_KEY}&q={city}&aqi=no"
         response = requests.get(url)
         data = response.json()
 
+        # Check if the response is successful and contains weather data
         if response.status_code == 200 and "current" in data:
-            return jsonify(data)
+            # Extract location information
+            location_data = {
+                "name": data["location"]["name"],
+                "state": data["location"].get("region", ""),  # 'region' is typically the state
+                "country": data["location"]["country"]
+            }
+            # Include the location and current weather in the response
+            return jsonify({
+                "location": location_data,
+                "current": data["current"]
+            })
         else:
+            # Handle API errors gracefully
             error_message = data.get("error", {}).get("message", "Error fetching weather data")
             return jsonify({"error": error_message}), response.status_code
     except Exception as e:
+        # Handle unexpected exceptions
         return jsonify({"error": str(e)}), 500
+
 
 @app.route("/hourly_forecast", methods=["GET"])
 def get_hourly_forecast():

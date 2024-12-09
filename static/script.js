@@ -15,28 +15,29 @@ const fallbackCities = ["New York", "London", "Tokyo"];
 // List of countries you want to display
 const countries = ["United States", "Canada", "Germany", "Australia", "India", "Brazil"];
 
+
 // Add unit toggle button
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.createElement("button");
-    toggleButton.className = "unit-toggle";
-    toggleButton.innerText = unit === "metric" ? "Switch to °F" : "Switch to °C";
-    document.body.appendChild(toggleButton);
-
-    toggleButton.addEventListener("click", () => {
-        unit = unit === "metric" ? "imperial" : "metric";
-        localStorage.setItem("unit", unit);
-        toggleButton.innerText = unit === "metric" ? "Switch to °F" : "Switch to °C";
-
-        const city = localStorage.getItem("selectedCity");
-        if (city) {
-            fetchWeatherData(city);
-            fetchHourlyForecast(city);
-            fetchWeeklyForecast(city);
-        }
-    });
-
     // Check if we are on the forecast page
     if (window.location.pathname === "/forecast") {
+        const toggleButton = document.createElement("button");
+        toggleButton.className = "unit-toggle";
+        toggleButton.innerText = unit === "metric" ? "Switch to °F" : "Switch to °C";
+        document.body.appendChild(toggleButton);
+
+        toggleButton.addEventListener("click", () => {
+            unit = unit === "metric" ? "imperial" : "metric";
+            localStorage.setItem("unit", unit);
+            toggleButton.innerText = unit === "metric" ? "Switch to °F" : "Switch to °C";
+
+            const city = localStorage.getItem("selectedCity");
+            if (city) {
+                fetchWeatherData(city);
+                fetchHourlyForecast(city);
+                fetchWeeklyForecast(city);
+            }
+        });
+
         const selectedCity = localStorage.getItem("selectedCity");
         if (selectedCity) {
             // Fetch weather data if city is stored in localStorage
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
 //Clock Section
 function updateClock() {
     const clockElement = document.getElementById("clock");
@@ -282,15 +284,17 @@ function roundTemperature(temp) {
 function displayWeatherData(data) {
     const temperatureUnit = unit === "metric" ? "°C" : "°F";
     const windSpeedUnit = unit === "metric" ? "kph" : "mph";
+    const locationName = `${data.location.name}, ${data.location.state}`;
     const iconUrl = data.current.condition.icon.startsWith("http") ? data.current.condition.icon : `https:${data.current.condition.icon}`;
     const fallbackIcon = "https://www.weatherapi.com/favicon.ico";
 
     let temperature = unit === "metric" ? data.current.temp_c : convertToFahrenheit(data.current.temp_c);
     temperature = roundTemperature(temperature); // Round temperature
+        // Determine the location string (City, State for USA; City only otherwise)
 
     weatherDataDiv.innerHTML = `
         <div class="tile">
-            <h5>${data.location.name}</h5>
+            <h5>${locationName}</h5>
             <h6>${data.location.country}</h6>
             <div class="icon-box">
             <img src="${loadImageWithFallback(iconUrl, fallbackIcon)}" alt="${data.current.condition.text}">

@@ -284,23 +284,23 @@ function roundTemperature(temp) {
 function displayWeatherData(data) {
     const temperatureUnit = unit === "metric" ? "°C" : "°F";
     const windSpeedUnit = unit === "metric" ? "kph" : "mph";
-    const locationName = `${data.location.name}, ${data.location.state}`;
+    const state = data.location.region || "N/A"; // Use region if state is undefined
+    const locationName = `${data.location.name}, ${state}`;
     const iconUrl = data.current.condition.icon.startsWith("http") ? data.current.condition.icon : `https:${data.current.condition.icon}`;
     const fallbackIcon = "https://www.weatherapi.com/favicon.ico";
 
     let temperature = unit === "metric" ? data.current.temp_c : convertToFahrenheit(data.current.temp_c);
     temperature = roundTemperature(temperature); // Round temperature
-        // Determine the location string (City, State for USA; City only otherwise)
 
+    // Determine the location string (City, State for USA; City only otherwise)
     weatherDataDiv.innerHTML = `
         <div class="tile">
             <h5>${locationName}</h5>
             <h6>${data.location.country}</h6>
             <div class="icon-box">
-            <img src="${loadImageWithFallback(iconUrl, fallbackIcon)}" alt="${data.current.condition.text}">
+                <img src="${loadImageWithFallback(iconUrl, fallbackIcon)}" alt="${data.current.condition.text}">
             </div>
             <div class="weather-details">
-
                 <div class="detail-box">
                     <p><strong>Temperature:</strong></p>
                     <p>${temperature} ${temperatureUnit}</p>
@@ -321,6 +321,7 @@ function displayWeatherData(data) {
         </div>
     `;
 }
+
 
 // Function to display weather in a tile [index.html]
 function displayWeatherTile(city, data) {
@@ -345,37 +346,55 @@ function displayWeatherTile(city, data) {
 
 
 // Function to get user's location and fetch nearby cities' weather data
+// Fetch nearby cities and their weather data
+async function fetchNearbyCities(lat, lon) {
+    const url = `/api/nearby_cities?lat=${lat}&lon=${lon}`;
+    try {
+        const response = await fetch(url);
+        const cities = await response.json();
+
+        // Debug: Log the fetched cities
+        console.log("Nearby cities:", cities);
+
+        if (!Array.isArray(cities) || cities.length === 0) {
+            throw new Error("No nearby cities found");
+        }
+
+        // Fetch weather for the first 3 cities
+        const nearbyCities = cities.slice(0, 3);
+        console.log("Fetching weather for cities:", nearbyCities);
+        nearbyCities.forEach((city) => fetchWeatherDataForCity(city.name));
+    } catch (error) {
+        console.error("Error fetching nearby cities:", error);
+    }
+}
+
+// Fetch weather data for a specific city and render its tile
 function fetchWeatherDataForCity(city) {
     const url = `/current_weather?city=${encodeURIComponent(city)}`;
 
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
             if (data.error) {
                 console.error(`Error fetching weather data for ${city}:`, data.error);
                 return;
             }
 
-            // Debug: Log the entire data object for inspection
+            // Debug: Log the weather data
             console.log(`Weather data for ${city}:`, data);
 
-            // Extract country and determine temperature unit
             const country = data.location.country;
-            const isImperial = country === "United States" || country === "United States of America"; // Handle both formats
+            const isImperial =
+                country === "United States" || country === "United States of America";
             const temperature = isImperial ? data.current.temp_f : data.current.temp_c;
             const temperatureUnit = isImperial ? "°F" : "°C";
 
-            // Debug: Log the country and temperature details
-            console.log(
-                `Detected country for ${city}: ${country}, Temperature: ${temperature} ${temperatureUnit}`
-            );
-
-            // Weather icon URL
             const iconUrl = data.current.condition.icon.startsWith("http")
                 ? data.current.condition.icon
                 : `https:${data.current.condition.icon}`;
 
-            // Add the weather tile to the homepage
+            // Append the tile to the weatherTilesDiv
             const weatherTilesDiv = document.getElementById("nearby-weather-tiles");
             weatherTilesDiv.innerHTML += `
                 <div class="homepage-tile" onclick="redirectToForecast('${city}')">
@@ -385,8 +404,11 @@ function fetchWeatherDataForCity(city) {
                     <p>${data.current.condition.text}</p>
                 </div>
             `;
+
+            // Debug: Log tile creation
+            console.log(`Tile created for: ${city}`);
         })
-        .catch(error => console.error(`Error fetching weather data:`, error));
+        .catch((error) => console.error(`Error fetching weather data:`, error));
 }
 
 // Redirect to forecast page
@@ -395,7 +417,7 @@ function redirectToForecast(city) {
     window.location.href = "/forecast";
 }
 
-// Fetch weather for nearby cities
+// Get user's location and fetch weather for nearby cities
 function getUserLocationAndFetchWeather() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -406,19 +428,18 @@ function getUserLocationAndFetchWeather() {
                 // Debug: Log the user's location
                 console.log(`User's location: Latitude ${lat}, Longitude ${lon}`);
 
-                // Example hardcoded nearby cities (you can replace this with actual reverse geocoding logic)
-                const nearbyCities = ["Los Angeles", "San Francisco", "Chicago"];
-
-                nearbyCities.forEach(city => fetchWeatherDataForCity(city));
+                fetchNearbyCities(lat, lon);
             },
             (error) => {
-                console.log("Unable to fetch your location. Using fallback cities.");
-                const fallbackCities = ["New York", "Miami", "Seattle"];
-                fallbackCities.forEach(city => fetchWeatherDataForCity(city));
+                console.error("Unable to fetch your location. Using fallback cities.", error);
+
+                // Use fallback cities if location is unavailable
+                const fallbackCities = ["San Francisco", "San Diego", "Los Angeles"];
+                fallbackCities.forEach((city) => fetchWeatherDataForCity(city));
             }
         );
     } else {
-        console.log("Geolocation is not supported by this browser.");
+        console.error("Geolocation is not supported by this browser.");
     }
 }
 

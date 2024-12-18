@@ -1,17 +1,75 @@
 from flask import Flask, render_template, jsonify, request
 import requests
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
-API_KEY = "6523be82bf3340bebe8164203240812"  # Replace with your WeatherAPI.com API key
-NEWS_API_KEY = "77793f9af3b34ef393749d7a295fe705"  # Replace with your NewsAPI key
+# WeatherAPI and NewsAPI keys
+API_KEY = os.getenv("API_KEY", "6523be82bf3340bebe8164203240812")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY", "77793f9af3b34ef393749d7a295fe705")
 BASE_URL = "https://api.weatherapi.com/v1/"
-NEWS_API_URL = "https://newsapi.org/v2/everything?q=weather&apiKey="  # Base URL for NewsAPI
-
+NEWS_API_URL = "https://newsapi.org/v2/everything?q=weather&apiKey="
 
 @app.route("/")
 def home():
     return render_template("index.html")
+@app.route("/api/nearby_cities", methods=["GET"])
+def get_nearby_cities():
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    
+    if not lat or not lon:
+        return jsonify({"error": "Latitude and longitude are required"}), 400
+
+    try:
+        # Validate latitude and longitude as numbers within valid ranges
+        lat = float(lat)
+        lon = float(lon)
+        if not (-90 <= lat <= 90) or not (-180 <= lon <= 180):
+            return jsonify({"error": "Invalid latitude or longitude values"}), 400
+
+        # Make the request to the external API to fetch nearby cities
+        response = requests.get(
+            f"{BASE_URL}search.json",
+            params={"key": API_KEY, "q": f"{lat},{lon}"}
+        )
+
+        # Check if the request was successful
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to fetch nearby cities"}), 500
+
+        data = response.json()
+
+        # Check if the response contains expected data structure
+        if not isinstance(data, list):
+            return jsonify({"error": "Unexpected response format from external API"}), 500
+
+        # Extract the first 3 cities or fewer if not available
+        cities = [{"name": city["name"], "lat": city["lat"], "lon": city["lon"]} for city in data]
+
+        # If there are fewer than 3 cities, add fallback cities
+        fallback_cities = [
+            {"name": "San Francisco", "lat": 37.7749, "lon": -122.4194},
+            {"name": "San Diego", "lat": 32.7157, "lon": -117.1611},
+            {"name": "Los Angeles", "lat": 34.0522, "lon": -118.2437}
+        ]
+
+        # Fill the remaining spots with fallback cities if necessary
+        while len(cities) < 3:
+            cities.append(fallback_cities[len(cities)])
+
+        return jsonify(cities[:3])  # Return the first 3 cities
+
+    except ValueError:
+        return jsonify({"error": "Latitude and longitude must be valid numbers"}), 400
+    except requests.exceptions.RequestException as e:
+        # Handle network or request errors
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route("/forecast")
 def forecast():
@@ -52,32 +110,17 @@ def news():
 def get_current_weather():
     city = request.args.get("city", "New York")  # Default to New York
     try:
-        # Construct the API request URL
         url = f"{BASE_URL}current.json?key={API_KEY}&q={city}&aqi=no"
         response = requests.get(url)
         data = response.json()
 
-        # Check if the response is successful and contains weather data
         if response.status_code == 200 and "current" in data:
-            # Extract location information
-            location_data = {
-                "name": data["location"]["name"],
-                "state": data["location"].get("region", ""),  # 'region' is typically the state
-                "country": data["location"]["country"]
-            }
-            # Include the location and current weather in the response
-            return jsonify({
-                "location": location_data,
-                "current": data["current"]
-            })
+            return jsonify(data)
         else:
-            # Handle API errors gracefully
             error_message = data.get("error", {}).get("message", "Error fetching weather data")
             return jsonify({"error": error_message}), response.status_code
     except Exception as e:
-        # Handle unexpected exceptions
         return jsonify({"error": str(e)}), 500
-
 
 @app.route("/hourly_forecast", methods=["GET"])
 def get_hourly_forecast():
